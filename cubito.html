@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial" />
+    <title>My first three.js app</title>
+    <style>
+      body {
+        margin: 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r127/three.js"></script>
+    <script>
+      //Creando la Escena
+      var scene = new THREE.Scene();
+      scene.background = new THREE.Color("blue");
+      scene.fog = new THREE.Fog("black", 0.1, 6);
+      var loader = new THREE.TextureLoader();
+      loader.load("./skere.jpg", function (texture) {
+        scene.background = texture;
+      });
+
+      //Creando la camara
+      var camera = new THREE.PerspectiveCamera(
+        75,
+        window.innerWidth / window.innerHeight
+      );
+
+      // Renderer
+      var renderer = new THREE.WebGLRenderer();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      document.body.appendChild(renderer.domElement);
+
+      //Creando La Geometria
+      var geometry = new THREE.TorusGeometry();
+      var material = new THREE.MeshBasicMaterial({ color: "white" });
+      var cube = new THREE.Mesh(geometry, material);
+
+      scene.add(cube);
+      camera.position.z = 5;
+      //animation
+      var animate = function () {
+        requestAnimationFrame(animate);
+        cube.rotation.x += 0.01;
+        cube.rotation.y += 0.001;
+        cube.rotation.z += 0.1;
+        renderer.render(scene, camera);
+      };
+      animate();
+    </script>
+  </body>
+</html>
